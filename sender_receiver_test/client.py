@@ -23,6 +23,8 @@ print(f"Connected to server at {host}:{port}")
 while True:
     data = input("Enter data: ")
     client_socket.send(data.encode())
+    returned_data = client_socket.recv(1024).decode()
+    print(f"Returned data: {returned_data}")
     if data == "exit":
         break
 

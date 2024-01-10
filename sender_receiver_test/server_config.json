@@ -1,10 +1,10 @@
 {
-    "host": "192.168.0.5",
+    "host": "192.168.251.149",
     "_host_comment": "host must be an IP address, not a hostname.",
 
     "port": 4917,
     "_port_comment": "firewall must allow inbound connections to this port.",
     
-    "timeout": 5,
+    "timeout": 0,
     "_timeout_comment": "timeout in seconds, 0 = no timeout"
 }
