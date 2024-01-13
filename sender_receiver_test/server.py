@@ -29,7 +29,12 @@ except socket.timeout:
 print(f"Connected to client at {addr[0]}:{addr[1]}")
 
 while True:
-    data = client_socket.recv(1024).decode()
+    try:
+        data = client_socket.recv(1024).decode()
+    except socket.timeout:
+        print("Connection timeout")
+        exit()
+        
     client_socket.send("zwrot".encode())
     if data == "exit":
         break

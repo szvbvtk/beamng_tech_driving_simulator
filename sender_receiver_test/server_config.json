@@ -1,5 +1,5 @@
 {
-    "host": "192.168.251.149",
+    "host": "127.0.0.1",
     "_host_comment": "host must be an IP address, not a hostname.",
 
     "port": 4917,
