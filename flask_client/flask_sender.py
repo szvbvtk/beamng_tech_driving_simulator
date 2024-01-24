@@ -5,9 +5,11 @@ import time
 import socket
 import os
 import signal
+from pathlib import Path
 
+config_path = Path(__file__).parent.parent.resolve().joinpath("server_config.json")
 
-with open("./server_config.json", "r") as server_config_file:
+with open(config_path, "r") as server_config_file:
     server_config = json.load(server_config_file)
     tcp_host = server_config["host"]
     tcp_port = server_config["port"]
