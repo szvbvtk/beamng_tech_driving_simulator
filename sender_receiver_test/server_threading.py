@@ -32,7 +32,6 @@ except socket.timeout:
 print(f"Connected to client at {addr[0]}:{addr[1]}")
 
 def receive_data(exit_event, main_loop_thread):
-    # main_loop_thread.start()
     while not exit_event.is_set():
         try:
             data = client_socket.recv(1024).decode()
@@ -65,3 +64,5 @@ receive_data_thread.start()
 
 receive_data_thread.join()
 # main_loop_thread.join()
+
+print("Closing connection...")
