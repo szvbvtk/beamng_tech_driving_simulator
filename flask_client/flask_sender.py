@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, jsonify
-import json
-import threading
-import time
-import socket
-import os
-import signal
 from pathlib import Path
+import threading
+import socket
+import signal
+import json
+import time
+import os
 
 config_path = Path(__file__).parent.parent.resolve().joinpath("server_config.json")
 
