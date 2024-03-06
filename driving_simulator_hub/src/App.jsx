@@ -11,6 +11,10 @@ const router = createBrowserRouter([
     path: "/scenarios",
     element: <ScenarioSelectionPage />,
   },
+  {
+    path: "/scenarios/:scenarioId",
+    element: <div>Scenario details</div>,
+  },
 ]);
 
 const App = () => {

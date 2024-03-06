@@ -1,27 +1,7 @@
-import ScenarioCard
- from "../../components/ScenarioCard/ScenarioCard";
-import classes from "./ScenarioSelection.module.css";
+import ScenarioCard from "../../components/ScenarioCard/ScenarioCard";
 
-const SCENARIOS = [
-  {
-    id: 1,
-    name: "scenariusz 1",
-    description: "opis scenariusza 1",
-    command: "run_scenario_1",
-  },
-  {
-    id: 2,
-    name: "scenariusz 2",
-    description: "opis scenariusza 2",
-    command: "run_scenario_2",
-  },
-  {
-    id: 3,
-    name: "scenariusz 3",
-    description: "opis scenariusza 3",
-    command: "run_scenario_3",
-  },
-];
+import classes from "./ScenarioSelection.module.css";
+import SCENARIOS from "../../assets/data/scenarios.json";
 
 const ScenarioSelectionPage = () => {
   return (
@@ -32,7 +12,7 @@ const ScenarioSelectionPage = () => {
       </div>
       <div className={classes.scenarioList}>
         {SCENARIOS.map((scenario) => (
-          <ScenarioCard scenario={scenario} />
+          <ScenarioCard scenario={scenario} key={scenario.id} />
         ))}
       </div>
     </div>

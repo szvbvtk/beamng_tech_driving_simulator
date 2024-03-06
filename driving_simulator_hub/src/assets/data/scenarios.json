@@ -1,0 +1,24 @@
+[
+    {
+      "id": 1,
+      "name": "scenariusz 1",
+      "description": "opis scenariusza 1",
+      "command": "run_scenario_1",
+      "img_name": "scenario_1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "scenariusz 2",
+      "description": "opis scenariusza 2",
+      "command": "run_scenario_2",
+      "img_name": "scenario_2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "scenariusz 3",
+      "description": "opis scenariusza 3",
+      "command": "run_scenario_3",
+      "img_name": "scenario_3.jpg"
+    }
+  ]
+  
