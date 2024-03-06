@@ -1,0 +1,15 @@
+Jeśli chcesz użyć React Router do nawigacji w aplikacji React, a serwer Flask ma jedynie odbierać dane z formularza bez renderowania stron, możesz użyć dwóch różnych portów dla serwera Flask i serwera deweloperskiego dla aplikacji React. Możesz również skorzystać z dwóch różnych środowisk - jednego dla aplikacji React i drugiego dla serwera Flask.
+
+Oto jak możesz to zorganizować:
+
+    Uruchamianie serwera Flask na innym porcie: Uruchom serwer Flask na porcie, który nie jest używany przez serwer deweloperski dla aplikacji React. Na przykład możesz uruchomić serwer Flask na porcie 5000, a serwer deweloperski dla aplikacji React na domyślnym porcie 3000.
+
+    Ustawienie proxy dla zapytań do serwera Flask w trybie deweloperskim: W pliku package.json Twojej aplikacji React, ustaw pole "proxy" na adres i port serwera Flask. Na przykład:
+
+    json
+
+"proxy": "http://localhost:5000"
+
+Dzięki temu wszystkie zapytania, które nie pasują do ścieżek statycznych ani do ścieżek zdefiniowanych w React Router, będą przekierowywane do serwera Flask.
+
+Używanie React Router w aplikacji React: W aplikacji React możesz użyć React Router do zarządzania nawigacją między różnymi stronami lub widokami.
