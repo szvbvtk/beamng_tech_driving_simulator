@@ -1,0 +1,8 @@
+{
+    "tcp_host": "127.0.0.1",
+    "_host_comment": "host must be an IP address, not a hostname.",
+
+    "tcp_port": 4917,
+    "_port_comment": "firewall must allow inbound connections to this port."
+
+}

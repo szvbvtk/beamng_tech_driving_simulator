@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/Home/Home";
 import ScenarioSelectionPage from "./pages/ScenarioSelection/ScenarioSelection";
+import ControlPanelPage from "./pages/ControlPanel/ControlPanel";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/scenarios/:scenarioId",
-    element: <div>Scenario details</div>,
+    element: <ControlPanelPage />,
   },
 ]);
 
