@@ -10,10 +10,14 @@ CORS(app)
 
 message = None
 message_lock = threading.Lock()
+received_message = None
+received_message_lock = threading.Lock()
 
 
 # trzeba uruchomić receiver.py z folderu flask_client_old
 def loop(run_event):
+    global received_message
+
     with open("./tcp_config.json", "r") as config:
         config = json.load(config)
         tcp_host = config["tcp_host"]
@@ -28,6 +32,13 @@ def loop(run_event):
             if message is not None:
                 print("sending message: ", message)
                 client_socket.send(str(message).encode())
+                received = client_socket.recv(1024).decode("utf-8")
+                print("received: ", received)
+                with received_message_lock:
+                    received_message = received
+
+                print("received_message: ", received_message)
+
                 message = None
 
         time.sleep(1)
@@ -40,13 +51,24 @@ def web():
 @app.route("/send-data", methods=["POST"])
 def handle_data():
     global message
+    global received_message
     data = request.json
 
     with message_lock:
         message = data
 
+    # while received_message is None:
+    #     time.sleep(0.1)
+
+    # data = received_message
+    # with received_message_lock:
+    #     received_message = None
+
     print(data)
-    return jsonify(data)
+    while received_message is None:
+        time.sleep(0.1)
+
+    return jsonify(received_message)
 
 
 # if __name__ == "__main__":
