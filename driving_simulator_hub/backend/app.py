@@ -4,6 +4,9 @@ import threading
 import socket
 import json
 import time
+import sys
+import signal
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -14,18 +17,29 @@ received_message = None
 received_message_lock = threading.Lock()
 
 
-# trzeba uruchomić receiver.py z folderu flask_client_old
+def tcp_connection():
+    try:
+        with open("./tcp_config.json", "r") as config:
+            config = json.load(config)
+            tcp_host = config["tcp_host"]
+            tcp_port = config["tcp_port"]
+
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print(f"Connecting to server at {tcp_host}:{tcp_port}")
+        client_socket.connect((tcp_host, tcp_port))
+        print(f"Connected")
+
+        return client_socket
+    except Exception as e:
+        sys.exit(f"Error connecting to server:, {str(e)}")
+
+client_socket = tcp_connection()
+
 def loop(run_event):
     global received_message
 
-    with open("./tcp_config.json", "r") as config:
-        config = json.load(config)
-        tcp_host = config["tcp_host"]
-        tcp_port = config["tcp_port"]
+    global client_socket
 
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP
-    client_socket.connect((tcp_host, tcp_port))  # connect to server
-    print(f"Connected to server at {tcp_host}:{tcp_port}")
     global message
     while run_event.is_set():
         with message_lock:
@@ -57,22 +71,12 @@ def handle_data():
     with message_lock:
         message = data
 
-    # while received_message is None:
-    #     time.sleep(0.1)
-
-    # data = received_message
-    # with received_message_lock:
-    #     received_message = None
-
     print(data)
     while received_message is None:
         time.sleep(0.1)
 
     return jsonify(received_message)
 
-
-# if __name__ == "__main__":
-# app.run(debug=True)
 
 if __name__ == "__main__":
     run_event = threading.Event()
@@ -83,10 +87,17 @@ if __name__ == "__main__":
     thread_flask = threading.Thread(target=web, daemon=True)
     thread_flask.start()
 
-    # wait for ctrl+c
-    # try:
-    #     while True:
-    #         time.sleep(0.1)
-    # except KeyboardInterrupt:
-    #     print("KeyboardInterrupt received.")
-    #     shutdown()
+    def shutdown():
+        global run_event
+        run_event.clear()
+        thread_loop.join()
+        os.kill(os.getpid(), signal.SIGINT)
+        thread_flask.join()
+        
+
+    try:
+        while True:
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt received.")
+        shutdown()
