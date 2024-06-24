@@ -1,6 +1,7 @@
 import socket
 from beamngpy import BeamNGpy, Scenario, Vehicle
 from beamngpy.sensors import Electrics
+from collections import defaultdict
 import json
 import ast
 import threading
@@ -8,7 +9,7 @@ import queue
 import time
 import sys
 import os
-from collections import defaultdict
+from pathlib import Path
 
 isGameRunning = False
 isGameRunning_lock = threading.Lock()
@@ -16,10 +17,12 @@ vehicle_data = defaultdict(lambda: 0)
 vehicle_data_lock = threading.Lock()
 vehicle = None
 
+path = Path(__file__).parent
+tcp_config = path / "tcp_config.json"
 
 def tcp_connection():
     try:
-        with open("./tcp_config.json", "r") as config:
+        with open(tcp_config, "r") as config:
             config = json.load(config)
             tcp_host = config["tcp_host"]
             tcp_port = config["tcp_port"]
@@ -81,9 +84,6 @@ def main_loop(exit_event):
         print("Main loop...")
         data = data_queue.get()
 
-        # if not data:
-        #     continue
-
         command = data["command"]
         payload = data["payload"]
 
@@ -92,8 +92,13 @@ def main_loop(exit_event):
             exit_event.set()
             break
         elif command == "start-scenario":
-            scenario_1_thread = threading.Thread(target=scenario_1_loop)
-            scenario_1_thread.start()
+            if payload['scenarioId'] == 1:
+                scenario_thread = threading.Thread(target=scenario_1_loop)
+            elif payload['scenarioId'] == 2:
+                scenario_thread = threading.Thread(target=scenario_2_loop)
+
+            scenario_thread.start()
+ 
 
             while not isGameRunning:
                 print("Waiting for game to start...")
@@ -118,6 +123,8 @@ def main_loop(exit_event):
             conn.send("zwrot".encode())
             break
 
+def scenario_2_loop():
+    pass
 
 def scenario_1_loop():
     global vehicle_data
@@ -157,6 +164,8 @@ def scenario_1_loop():
             vehicle_data["left_signal"] = vehicle.sensors["electrics"]["left_signal"]
             vehicle_data["right_signal"] = vehicle.sensors["electrics"]["right_signal"]
             vehicle_data["gear"] = vehicle.sensors["electrics"]["gear"]
+
+            print(vehicle_data  )
 
 
 if __name__ == "__main__":

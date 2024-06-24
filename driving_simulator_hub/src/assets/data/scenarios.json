@@ -1,24 +1,17 @@
 [
     {
       "id": 1,
-      "name": "scenariusz 1",
-      "description": "opis scenariusza 1",
+      "name": "Reakcja na znak STOP",
+      "description": "Ustąpienie pierwszeństwa przed znakiem stopu, znalezienie luki w ciągu samochodów i ruszenie z miejsca",
       "command": "run_scenario_1",
       "img_name": "scenario_1.jpg"
     },
     {
       "id": 2,
-      "name": "scenariusz 2",
-      "description": "opis scenariusza 2",
+      "name": "Jazda drogą z pierwszeństwem",
+      "description": "Reakcja na próbę wymuszenia pierwszeństwa przez kierowcę z drogi podporządkowanej",
       "command": "run_scenario_2",
       "img_name": "scenario_2.jpg"
-    },
-    {
-      "id": 3,
-      "name": "scenariusz 3",
-      "description": "opis scenariusza 3",
-      "command": "run_scenario_3",
-      "img_name": "scenario_3.jpg"
     }
   ]
   

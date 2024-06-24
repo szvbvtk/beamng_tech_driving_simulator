@@ -7,7 +7,7 @@ import time
 import sys
 import signal
 import os
-
+from pathlib import Path
 app = Flask(__name__)
 CORS(app)
 
@@ -15,11 +15,13 @@ message = None
 message_lock = threading.Lock()
 received_message = None
 received_message_lock = threading.Lock()
+path = Path(__file__).parent
+tcp_config = path / "tcp_config.json"
 
 
 def tcp_connection():
     try:
-        with open("./tcp_config.json", "r") as config:
+        with open(tcp_config, "r") as config:
             config = json.load(config)
             tcp_host = config["tcp_host"]
             tcp_port = config["tcp_port"]
